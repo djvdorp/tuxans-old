@@ -1,0 +1,38 @@
+# CHANGE THIS! Default SSH ports with password authentication is VERY insecure.
+# SSHd port should remain 22 during development for Vagrant to work properly!
+sshd_port: 22
+
+# CHANGE THIS! See here: http://docs.ansible.com/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module
+# This is just SHA-512 for 'abcd1234'
+user_website_password: $6$rounds=100000$Fvia3r06vRiKDmmW$ZX8ajTHbl1hRZKEJrZcwRL5eJ5qxzm63kvn7b3EUgb5UBVR1pvGN4NrO6jJ1LrYFOm2N4yIZy/vD/tzOwNs2T.
+mysql_root_password: abcd1234
+
+hostname: test
+hostname_fqdn: test.server.com
+
+use_nginx: True
+
+install_mariadb: False
+
+# Settings for php.ini
+php_memory_limit: 96M
+php_max_execution_time: 120
+php_max_input_time: 300
+php_post_max_size: 25M
+php_upload_max_filesize: 25M
+
+# Settings for PHP5-FPM's pool
+fpm_max_children: 5
+fpm_start_servers: 1
+fpm_min_spare_servers: 1
+fpm_max_spare_servers: 2
+fpm_max_requests: 5000
+
+# Settings for self-signed OpenSSL certificate
+ssl_country: US
+ssl_state: New York
+ssl_city: New York
+ssl_company: Your Company
+ssl_department: IT
+ssl_hostname: *.server.com
+ssl_mail: test@server.com

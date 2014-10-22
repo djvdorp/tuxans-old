@@ -1,0 +1,16 @@
+---
+- name: 'Pre-configure postfix/main_mailer_type'
+  debconf: name=postfix question='postfix/main_mailer_type' value='Internet Site' vtype=select
+- name: 'Pre-configure postfix/mailname'
+  debconf: name=postfix question='postfix/mailname' value="{{ hostname_fqdn }}" vtype=string
+- name: 'Pre-configure postfix/destinations'
+  debconf: name=postfix question='postfix/destinations' value='localhost.localdomain, localhost' vtype=string
+
+- name: 'Install postfix'
+  apt: name=postfix state=latest force=yes
+
+- name: 'Allow mail delivery from localhost only'
+  command: /usr/sbin/postconf -e "inet_interfaces = loopback-only"
+
+- name: 'Restart postfix to apply settings'
+  service: name=postfix state=restarted enabled=yes

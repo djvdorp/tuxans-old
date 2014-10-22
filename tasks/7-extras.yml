@@ -1,0 +1,12 @@
+---
+- name: 'Install other useful packages specified'
+  apt: name={{item}} state=latest force=yes
+  with_items:
+  - screen
+  - wget
+  - axel
+  - htop
+  - iftop
+  - git
+  - fail2ban
+  - iotop

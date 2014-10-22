@@ -1,0 +1,31 @@
+---
+# First uninstall any unnecessary packages and ensure that aptitude is installed.
+- name: 'update apt cache'
+  apt: update_cache=yes
+- name: 'install aptitude, nano, lsb-release and sudo'
+  apt: name={{item}} state=present force=yes
+  with_items:
+  - aptitude
+  - nano
+  - lsb-release
+  - sudo
+  - python-apt
+  - debconf
+  - python-mysqldb
+- name: 'stop unneeded server services (apache2, sendmail, bind9, nscd)'
+  service: name={{item}} state=stopped enabled=no
+  register: command_result
+  failed_when: "command_result|failed and 'service not found' not in command_result.msg"
+  with_items:
+    - apache2
+    - sendmail
+    - bind9
+    - nscd
+- name: 'purge unneeded server services (apache2, sendmail, bind9, nscd)'
+  apt: name={{item}} state=absent force=yes purge=yes
+  with_items:
+  - nscd
+  - bind9
+  - sendmail
+  - apache2
+  - apache2.2-common

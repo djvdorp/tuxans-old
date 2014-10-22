@@ -1,0 +1,13 @@
+---
+# Tweak my.cnf. Commented out. Best to let users configure my.cnf on their own
+#cp /etc/mysql/{my.cnf,my.cnf.bak}
+#if [ -e /usr/share/doc/mysql-server-5.1/examples/my-medium.cnf.gz ]; then
+#gunzip /usr/share/doc/mysql-server-5.1/examples/my-medium.cnf.gz
+#cp /usr/share/doc/mysql-server-5.1/examples/my-medium.cnf /etc/mysql/my.cnf
+#else
+#gunzip /usr/share/doc/mysql-server-5.0/examples/my-medium.cnf.gz
+#cp /usr/share/doc/mysql-server-5.0/examples/my-medium.cnf /etc/mysql/my.cnf
+#fi
+#sed -i '/myisam_sort_buffer_size/ a\skip-innodb' /etc/mysql/my.cnf
+#sleep 1
+#service mysql restart

@@ -1,0 +1,7 @@
+# Main repo
+deb http://http.debian.net/debian {{ ansible_distribution_release }} main non-free contrib
+deb-src http://http.debian.net/debian {{ ansible_distribution_release }} main non-free contrib
+
+# Security
+deb http://security.debian.org/ {{ ansible_distribution_release }}/updates main contrib non-free
+deb-src http://security.debian.org/ {{ ansible_distribution_release }}/updates main contrib non-free

@@ -1,0 +1,23 @@
+---
+- name: 'TuxLite Ansible version'
+  hosts: all
+  sudo: True
+  connection: ssh
+
+  vars_files:
+    - vars/config.yml
+
+  tasks:
+    - include: tasks/0-preparation.yml
+    - include: tasks/1-apt.yml
+    - include: tasks/2-user.yml
+    - include: tasks/3-basic.yml
+    - include: tasks/4-webserver.yml
+    - include: tasks/5-mysql.yml
+    - include: tasks/6-php.yml
+    - include: tasks/7-extras.yml
+    - include: tasks/8-postfix.yml
+    - include: tasks/9-optimize_webserver.yml
+    - include: tasks/10-optimize_php.yml
+    - include: tasks/11-optimize_mysql.yml
+    - include: tasks/12-selfsigned_ssl.yml

@@ -1,0 +1,42 @@
+---
+# Configuring /etc/apt/sources.list.
+- name: 'Backup sources.list to sources.list.bak'
+  command: cp /etc/apt/sources.list /etc/apt/sources.list.bak creates=/etc/apt/sources.list.bak
+
+- name: 'Ubuntu: Update the sources.list file'
+  when: ansible_distribution == 'Ubuntu'
+  template: src=../templates/ubuntu_sources.list.j2 dest=/etc/apt/sources.list
+- name: 'Debian: Update the sources.list file'
+  when: ansible_distribution == 'Debian'
+  template: src=../templates/debian_sources.list.j2 dest=/etc/apt/sources.list
+
+## Third party mirrors ##
+# Need to add Dotdeb repo for installing PHP5-FPM when using Debian 6.0 (squeeze)
+- name: 'Debian 6.0 (squeeze): add Dotdeb repo'
+  when: ansible_distribution == 'Debian' and ansible_distribution_release == 'squeeze'
+  template: src=../templates/debian_dotdeb.list.j2 dest=/etc/apt/sources.list.d/dotdeb.list
+- name: 'Debian 6.0 (squeeze): add Dotdeb gpg key'
+  when: ansible_distribution == 'Debian' and ansible_distribution_release == 'squeeze'
+  apt_key: url=http://www.dotdeb.org/dotdeb.gpg state=present
+
+# Enabling official nginx.org repo
+- name: 'Add Nginx.org repo'
+  template: src=../templates/nginx.list.j2 dest=/etc/apt/sources.list.d/nginx.list
+- name: 'Set APT pinning for Nginx package'
+  template: src=../templates/Nginx.preferences.d.j2 dest=/etc/apt/preferences.d/Nginx
+- name: 'Add Nginx.org gpg key'
+  apt_key: url=http://nginx.org/packages/keys/nginx_signing.key state=present
+
+# If user wants to install MariaDB instead of MySQL
+- name: 'Add MariaDB.org repo'
+  when: install_mariadb
+  template: src=../templates/mariadb.list.j2 dest=/etc/apt/sources.list.d/mariadb.list
+- name: 'Set APT pinning for MariaDB.org'
+  when: install_mariadb
+  template: src=../templates/MariaDB.preferences.d.j2 dest=/etc/apt/preferences.d/MariaDB
+- name: 'Add MariaDB.org gpg key'
+  when: install_mariadb
+  apt_key: id=0xcbcb082a1bb943db keyserver=keyserver.ubuntu.com state=present
+
+- name: 'update apt cache'
+  apt: update_cache=yes

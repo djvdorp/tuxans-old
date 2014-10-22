@@ -1,0 +1,69 @@
+---
+- name: 'Nginx: Optimize configuration'
+  when: use_nginx
+  template: src=../templates/nginx.conf.j2 dest=/etc/nginx/nginx.conf
+# This equals
+#  shell: sed -i 's/^user\s*www-data/user nginx/' /etc/nginx/nginx.conf
+- name: 'Nginx: Change nginx user from "www-data" to "nginx". Not really necessary because "www-data" user is created when installing PHP5-FPM'
+  when: use_nginx
+  lineinfile:
+    dest: /etc/nginx/nginx.conf
+    regexp: "^user\s*www-data"
+    line: "user nginx"
+    state: present
+# This equals
+#  shell: sed -i 's/\trotate .*/\trotate 10/' /etc/logrotate.d/nginx
+- name: 'Nginx: Change logrotate for nginx log files to keep 10 days worth of logs'
+  when: use_nginx
+  lineinfile:
+    dest: /etc/logrotate.d/nginx
+    regexp: "\trotate .*"
+    line: "\trotate 10"
+    state: present
+
+
+
+- name: 'Apache2: Optimize configuration'
+  when: not use_nginx
+  template: src=../templates/apache2.conf.j2 dest=/etc/apache2/apache2.conf
+# This equals
+#  shell: sed -i 's/\tweekly/\tdaily/' /etc/logrotate.d/apache2
+#  shell: sed -i 's/\trotate .*/\trotate 10/' /etc/logrotate.d/apache2
+- name: 'Apache2: Change logrotate for apache2 log files to keep 10 days worth of logs'
+  when: not use_nginx
+  lineinfile:
+    dest: /etc/logrotate.d/apache2
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - {
+        regexp: "\tweekly",
+        line: "\tdaily"
+      }
+    - {
+        regexp: "\trotate .*",
+        line: "\trotate 10"
+      }
+# This equals
+#  shell: sed -i 's/ServerTokens .*/ServerTokens Prod/' /etc/apache2/conf.d/security
+#  shell: sed -i 's/ServerSignature .*/ServerSignature Off/' /etc/apache2/conf.d/security
+- name: 'Apache2: Remove Apache server information from headers.'
+  when: not use_nginx
+  lineinfile:
+    dest: /etc/apache2/conf.d/security
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - {
+        regexp: "ServerTokens .*",
+        line: "ServerTokens Prod"
+      }
+    - {
+        regexp: "ServerSignature .*",
+        line: "ServerSignature Off"
+      }
+- name: 'Apache2: Add *:443 to ports.conf'
+  when: not use_nginx
+  template: src=../templates/apache2_ports.conf.j2 dest=/etc/apache2/ports.conf

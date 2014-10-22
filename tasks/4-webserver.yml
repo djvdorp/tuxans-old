@@ -1,0 +1,68 @@
+---
+# The Nginx part. Always uses Nginx from Nginx source repo for now.
+- name: 'Webserver: Install nginx'
+  when: use_nginx
+  apt: name=nginx state=latest force=yes
+- name: 'Webserver: Create nginx sites-available and sites-enabled'
+  when: use_nginx
+  file: path={{item}} state=directory
+  with_items:
+  - /etc/nginx/sites-available
+  - /etc/nginx/sites-enabled
+# This equals
+#  shell: sed -i 's/^[^#]/#&/' /etc/nginx/conf.d/default.conf
+- name: 'Webserver: Disable nginx vhost that is not in the sites-available folder. Put a hash in front of any line.'
+  when: use_nginx
+  lineinfile:
+    dest: /etc/nginx/conf.d/default.conf
+    regexp: "^[^#]"
+    line: "#&/"
+    state: present
+- name: 'Webserver: Enable default nginx vhost in /etc/nginx/sites-available'
+  when: use_nginx
+  file: src=/etc/nginx/sites-available/default dest=/etc/nginx/sites-enabled/default state=link force=yes
+- name: 'Webserver: Add an nginx catch-all default vhost'
+  when: use_nginx
+  template: src=../templates/nginx_default_vhost.conf.j2 dest=/etc/nginx/sites-available/default
+# This equals
+#  shell: sed -i 's/\(root \/usr\/share\/nginx\/\).*/\1html;/' /etc/nginx/sites-available/default
+- name: 'Webserver: Change nginx default vhost root directory to /usr/share/nginx/html;'
+  when: use_nginx
+  lineinfile:
+    dest: /etc/nginx/sites-available/default
+    regexp: "(root /usr/share/nginx/).*"
+    line: "1html;"
+    state: present
+
+
+
+# The Apache2 part.
+- name: 'Webserver: Install apache2'
+  when: not use_nginx
+  apt: name={{item}} state=latest force=yes
+  with_items:
+  - libapache2-mod-fastcgi
+  - apache2-mpm-event
+- name: 'Webserver: Disable apache2 mods'
+  when: not use_nginx
+  ignore_errors: yes
+  command: "{{item}}"
+  with_items:
+  - a2dismod php4
+  - a2dismod php5
+  - a2dismod fcgid
+- name: 'Webserver: Enable apache2 mods'
+  when: not use_nginx
+  command: "{{item}}"
+  with_items:
+  - a2enmod actions
+  - a2enmod fastcgi
+  - a2enmod ssl
+  - a2enmod rewrite
+- name: 'Webserver: Configure apache2 fastcgi mod'
+  when: not use_nginx
+  template: src=../templates/fastcgi.conf.j2 dest=/etc/apache2/mods-available/fastcgi.conf
+- name: 'Webserver: Create apache2 virtual directory for the external server'
+  when: not use_nginx
+  file: path=/srv/www/fcgi-bin.d state=directory
+

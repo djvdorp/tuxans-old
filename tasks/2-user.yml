@@ -1,0 +1,20 @@
+---
+# We add new regular user here!
+# Remember to create a normal user account for login or you will be locked out from your box!
+- name: Copy sudoers file for safety
+  command: cp -f /etc/sudoers /etc/sudoers.tmp
+- name: Create sudoers file backup
+  command: cp -f /etc/sudoers /etc/sudoers.${date}.bak
+- name: Create 'admin' group
+  group: name=admin system=yes state=present
+- name: Make sure we can sudo as 'admin' group
+  lineinfile: dest=/etc/sudoers.tmp state=present regexp='^%admin ALL\=\(ALL\) ALL' line='%admin ALL=(ALL) ALL'
+- name: Also make sure ssh-agent works via sudo
+  lineinfile: dest=/etc/sudoers.tmp state=present regexp='^Defaults env_keep\+\=SSH_AUTH_SOCK' line='Defaults env_keep+=SSH_AUTH_SOCK'
+- name: And mail bad passwords
+  lineinfile: dest=/etc/sudoers.tmp state=present regexp='^Defaults mail_badpass' line='Defaults mail_badpass'
+- name: Final sudoers file check
+  shell: visudo -q -c -f /etc/sudoers.tmp && cp -f /etc/sudoers.tmp /etc/sudoers
+
+- name: "Add user 'website' and add him to the 'admin' group"
+  user: name=website groups=admin append=yes password="{{ user_website_password }}"
