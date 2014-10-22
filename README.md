@@ -17,6 +17,7 @@ Can I donate to **TuxLite**?
 
 What is ported in **TuxAns** (compared to **TuxLite**) at this time?
 - All functionality, except for the "dbgui", "domain.sh" and "varnish.sh" parts of the script. (WIP)
+- Removed: AWstats (use Analytics), TMPDD/TMPFS securing, MySQL optimization.
 
 Why **Ansible** and not *superCoolDevOpsToolB*?
 - It only uses SSH for configuring. **NO AGENTS!** (Python dependency is only for data gathering)
