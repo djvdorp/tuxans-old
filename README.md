@@ -1,21 +1,21 @@
-# TuxAns
+# tuxans
 
 ## About this project
 
-What is **TuxAns**?
-- **TuxAns** is an Ansible-port of the famous [TuxLite](http://tuxlite.com) shell scripts.
+What is **tuxans**?
+- **tuxans** is an Ansible-port of the famous [TuxLite](http://tuxlite.com) shell scripts.
 It is mainly free collection of shell scripts for rapid deployment of LAMP and LNMP stacks (Linux, Apache/Nginx, MySQL and PHP) for Debian and Ubuntu.
 
 Who made the original **TuxLite**?
 - Matt did! To contact him, email: *"s" at "tuxlite" dot "com"*
 
-Are **TuxAns** and/or **TuxLite** free?
+Are **tuxans** and/or **TuxLite** free?
 - Yes, the scripts are completely free and will remain free in the spirit of open source software. Use it as many times as you want, share it with others but do give credit where its due.
 
 Can I donate to **TuxLite**?
 - Yes, please see the [TuxLite Donate page](http://tuxlite.com/donate/).
 
-What is ported in **TuxAns** (compared to **TuxLite**) at this time?
+What is ported in **tuxans** (compared to **TuxLite**) at this time?
 - All functionality, except for the "dbgui", "domain.sh" and "varnish.sh" parts of the script. (WIP)
 - Removed: AWstats (use Analytics), TMPDD/TMPFS securing, MySQL optimization.
 
