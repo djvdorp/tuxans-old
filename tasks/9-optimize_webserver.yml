@@ -8,8 +8,8 @@
   when: use_nginx
   lineinfile:
     dest: /etc/nginx/nginx.conf
-    regexp: "^user\\s*www-data"
-    line: "user nginx"
+    regexp: "^user\\s*www-data;"
+    line: "user nginx;"
     state: present
 # This equals
 #  shell: sed -i 's/\trotate .*/\trotate 10/' /etc/logrotate.d/nginx
