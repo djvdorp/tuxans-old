@@ -21,3 +21,4 @@
     - include: tasks/10-optimize_php.yml
     - include: tasks/11-optimize_mysql.yml
     - include: tasks/12-selfsigned_ssl.yml
+    - include: tasks/13-tuxlite_legacy.yml

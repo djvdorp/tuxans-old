@@ -1,0 +1,6 @@
+---
+- name: 'Create directory for Tuxlite legacy scripts'
+  file: path=/usr/local/src/tuxlite state=directory
+
+- name: 'Copy over domain.sh script'
+  copy: src=../tuxlite-src/tuxlite/domain.sh dest=/usr/local/src/tuxlite/domain.sh
