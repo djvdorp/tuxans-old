@@ -33,7 +33,7 @@
         line: "pm.max_spare_servers = {{ fpm_max_spare_servers }}"
       }
     - {
-        regexp: "\;pm.max_requests.*",
+        regexp: "\\;pm.max_requests.*",
         line: "pm.max_requests = {{ fpm_max_requests }}"
       }
     - {

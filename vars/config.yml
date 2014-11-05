@@ -36,5 +36,5 @@ ssl_state: New York
 ssl_city: New York
 ssl_company: Your Company
 ssl_department: IT
-ssl_hostname: *.server.com
+ssl_hostname: '*.server.com'
 ssl_mail: test@server.com

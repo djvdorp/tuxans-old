@@ -8,7 +8,7 @@
   when: use_nginx
   lineinfile:
     dest: /etc/nginx/nginx.conf
-    regexp: "^user\s*www-data"
+    regexp: "^user\\s*www-data"
     line: "user nginx"
     state: present
 # This equals
