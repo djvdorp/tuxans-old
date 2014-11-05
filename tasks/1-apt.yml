@@ -27,16 +27,27 @@
 - name: 'Add Nginx.org gpg key'
   apt_key: url=http://nginx.org/packages/keys/nginx_signing.key state=present
 
-# If user wants to install MariaDB instead of MySQL
+# If user wants to install MariaDB instead of Oracle MySQL
 - name: 'Add MariaDB.org repo'
-  when: install_mariadb
+  when: install_mariadb and not install_percona
   template: src=../templates/mariadb.list.j2 dest=/etc/apt/sources.list.d/mariadb.list
 - name: 'Set APT pinning for MariaDB.org'
-  when: install_mariadb
+  when: install_mariadb and not install_percona
   template: src=../templates/MariaDB.preferences.d.j2 dest=/etc/apt/preferences.d/MariaDB
 - name: 'Add MariaDB.org gpg key'
-  when: install_mariadb
+  when: install_mariadb and not install_percona
   apt_key: id=0xcbcb082a1bb943db keyserver=keyserver.ubuntu.com state=present
+
+# If user wants to install Percona instead of Oracle MySQL
+- name: 'Add Percona.com repo'
+  when: install_percona and not install_mariadb
+  template: src=../templates/percona.list.j2 dest=/etc/apt/sources.list.d/percona.list
+- name: 'Set APT pinning for Percona.com'
+  when: install_percona and not install_mariadb
+  template: src=../templates/Percona.preferences.d.j2 dest=/etc/apt/preferences.d/Percona
+- name: 'Add Percona.com gpg key'
+  when: install_percona and not install_mariadb
+  apt_key: id=1C4CBDCDCD2EFD2A keyserver=keys.gnupg.net state=present
 
 - name: 'update apt cache'
   apt: update_cache=yes

@@ -1,0 +1,5 @@
+# Prevent potential conflict with main repo that causes
+# Percona to be uninstalled when upgrading mysql-common
+Package: *
+Pin: origin repo.percona.com
+Pin-Priority: 1000
