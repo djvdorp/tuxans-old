@@ -28,11 +28,10 @@
 #  shell: sed -i 's/\(root \/usr\/share\/nginx\/\).*/\1html;/' /etc/nginx/sites-available/default
 - name: 'Webserver: Change nginx default vhost root directory to /usr/share/nginx/html;'
   when: use_nginx
-  lineinfile:
+  replace:
     dest: /etc/nginx/sites-available/default
-    regexp: "(root /usr/share/nginx/).*"
-    line: "1html;"
-    state: present
+    regexp: '(root /usr/share/nginx/).*'
+    replace: '\1html;'
 
 
 
