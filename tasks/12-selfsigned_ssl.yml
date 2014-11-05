@@ -2,8 +2,13 @@
 - name: 'Install OpenSSL'
   apt: name=openssl state=latest force=yes
 
+- name: 'Create directory for local SSL certificates'
+  file: path=/etc/ssl/localcerts state=directory
+
 - name: 'Generate self-signed SSL certificate'
-  command: openssl req -new -x509 -days 3650 -nodes -subj "/C={{ ssl_country }}/ST={{ ssl_state }}/L={{ ssl_city }}/O={{ ssl_company }}/OU={{ ssl_department }}/CN={{ ssl_hostname }}/emailAddress={{ ssl_mail }}" -keyout /etc/ssl/localcerts/webserver.key -out /etc/ssl/localcerts/webserver.pem creates=/etc/ssl/localcerts/webserver.pem
+  command: openssl req -new -x509 -days 3650 -nodes -subj "/C={{ ssl_country }}/ST={{ ssl_state }}/L={{ ssl_city }}/O={{ ssl_company }}/OU={{ ssl_department }}/CN={{ ssl_hostname }}/emailAddress={{ ssl_mail }}" -out /etc/ssl/localcerts/webserver.pem -keyout /etc/ssl/localcerts/webserver.key
+  args:
+    creates: /etc/ssl/localcerts/webserver.pem
 
 - name: 'Restart nginx to apply settings'
   when: use_nginx
