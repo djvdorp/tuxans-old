@@ -1,6 +1,6 @@
 ---
-- name: 'Create directory for Tuxlite legacy scripts'
-  file: path=/usr/local/src/tuxlite state=directory
+- name: 'Create directory for Tuxlite legacy scripts. Hardcoded permissions for user website.'
+  file: path=/usr/local/src/tuxlite state=directory owner=website group=website mode=0755
 
-- name: 'Copy over domain.sh script'
-  copy: src=../tuxlite-src/tuxlite/domain.sh dest=/usr/local/src/tuxlite/domain.sh
+- name: 'Fix Tuxlite domain.sh script from template. Hardcoded permissions for user website.'
+  template: src=../templates/legacy/domain.sh.j2 dest=/usr/local/src/tuxlite/domain.sh owner=website group=website mode=0700
