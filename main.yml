@@ -1,5 +1,5 @@
 ---
-- name: 'TuxLite Ansible version'
+- name: 'TuxAns'
   hosts: all
   sudo: True
   connection: ssh
