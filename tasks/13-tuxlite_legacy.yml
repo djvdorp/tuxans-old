@@ -4,3 +4,6 @@
 
 - name: 'Fix Tuxlite domain.sh script from template. Hardcoded permissions for user website.'
   template: src=../templates/legacy/domain.sh.j2 dest=/usr/local/src/tuxlite/domain.sh owner=website group=website mode=0700
+
+- name: 'Fix Tuxlite dbgui.sh script from template. Hardcoded permissions for user website.'
+  template: src=../templates/legacy/dbgui.sh.j2 dest=/usr/local/src/tuxlite/dbgui.sh owner=website group=website mode=0700
