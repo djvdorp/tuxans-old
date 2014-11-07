@@ -14,7 +14,7 @@ use_nginx: True
 
 #Choose your MySQL flavour, if both are False then Oracle MySQL is used (default).
 install_mariadb: False
-install_percona: False
+install_percona: True
 
 # Settings for php.ini
 php_memory_limit: 96M
