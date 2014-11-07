@@ -10,3 +10,6 @@
 
 - name: 'Fix Tuxlite varnish.sh script from template. Hardcoded permissions for user website.'
   template: src=../templates/legacy/varnish.sh.j2 dest=/usr/local/src/tuxlite/varnish.sh owner=website group=website mode=0700
+
+- name: 'Fix Tuxlite wordpress.sh script from template. Hardcoded permissions for user website.'
+  template: src=../templates/legacy/wordpress.sh.j2 dest=/usr/local/src/tuxlite/wordpress.sh owner=website group=website mode=0700
