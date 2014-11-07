@@ -12,59 +12,49 @@ DB_GUI=1
 
 
 {% raw %}
-#### Functions Begin ####
-
-function install_dbgui {
-
-    # If user selected phpMyAdmin in options.conf
-    if [ $DB_GUI = 1  ]; then
-        mkdir /tmp/phpmyadmin
-        PMA_VER="`wget -q -O - http://www.phpmyadmin.net/home_page/downloads.php|grep -m 1 '<h2>phpMyAdmin'|sed -r 's/^[^3-9]*([0-9.]*).*/\1/'`"
-        wget -O - "http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/${PMA_VER}/phpMyAdmin-${PMA_VER}-all-languages.tar.gz" | tar zxf - -C /tmp/phpmyadmin
-
-        # Check exit status to see if download is successful
-        if [ $? = 0  ]; then
-            mkdir /usr/local/share/phpmyadmin
-            rm -rf /usr/local/share/phpmyadmin/*
-            cp -Rpf /tmp/phpmyadmin/*/* /usr/local/share/phpmyadmin
-            cp /usr/local/share/phpmyadmin/{config.sample.inc.php,config.inc.php}
-            rm -rf /tmp/phpmyadmin
-
-            # Generate random blowfish string
-            LENGTH="20"
-            MATRIX="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-            while [ "${n:=1}" -le "$LENGTH" ]; do
-                BLOWFISH="$BLOWFISH${MATRIX:$(($RANDOM%${#MATRIX})):1}"
-                let n+=1
-            done
-
-            # Configure phpmyadmin blowfish variable
-            sed -i "s/blowfish_secret'] = ''/blowfish_secret'] = \'$BLOWFISH\'/"  /usr/local/share/phpmyadmin/config.inc.php
-            echo -e "\033[35;1mphpMyAdmin installed/upgraded.\033[0m"
-        else
-            echo -e "\033[35;1mInstall/upgrade failed. Perhaps phpMyAdmin download link is temporarily down. Update link in options.conf and try again.\033[0m"
-        fi
-
-    else # User selected Adminer
-
-        mkdir -p /usr/local/share/adminer
-        cd /usr/local/share/adminer
-        rm -rf /usr/local/share/adminer/*
-        wget http://www.adminer.org/latest.php
-        if [ $? = 0  ]; then
-            mv latest.php index.php
-            echo -e "\033[35;1m Adminer installed. \033[0m"
-        else
-            echo -e "\033[35;1mInstall/upgrade failed. Perhaps http://adminer.org is down. Try again later.\033[0m"
-        fi
-        cd - &> /dev/null
-    fi # End if DB_GUI
-
-} # End function install_dbgui
-
-
-
-#### Main program begins ####
 echo "Installing or updating phpMyAdmin/Adminer."
-install_dbgui
+
+# If user selected phpMyAdmin in options.conf
+if [ $DB_GUI = 1  ]; then
+    mkdir /tmp/phpmyadmin
+    PMA_VER="`wget -q -O - http://www.phpmyadmin.net/home_page/downloads.php|grep -m 1 '<h2>phpMyAdmin'|sed -r 's/^[^3-9]*([0-9.]*).*/\1/'`"
+    wget -O - "http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/${PMA_VER}/phpMyAdmin-${PMA_VER}-all-languages.tar.gz" | tar zxf - -C /tmp/phpmyadmin
+
+    # Check exit status to see if download is successful
+    if [ $? = 0  ]; then
+        mkdir /usr/local/share/phpmyadmin
+        rm -rf /usr/local/share/phpmyadmin/*
+        cp -Rpf /tmp/phpmyadmin/*/* /usr/local/share/phpmyadmin
+        cp /usr/local/share/phpmyadmin/config.sample.inc.php /usr/local/share/phpmyadmin/config.inc.php
+        rm -rf /tmp/phpmyadmin
+
+        # Generate random blowfish string
+        LENGTH="20"
+        MATRIX="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+        while [ "${n:=1}" -le "$LENGTH" ]; do
+            BLOWFISH="$BLOWFISH${MATRIX:$(($RANDOM%${#MATRIX})):1}"
+            let n+=1
+        done
+
+        # Configure phpmyadmin blowfish variable
+        sed -i "s/blowfish_secret'] = ''/blowfish_secret'] = \'$BLOWFISH\'/"  /usr/local/share/phpmyadmin/config.inc.php
+        echo -e "\033[35;1mphpMyAdmin installed/upgraded.\033[0m"
+    else
+        echo -e "\033[35;1mInstall/upgrade failed. Perhaps phpMyAdmin download link is temporarily down. Update link in options.conf and try again.\033[0m"
+    fi
+
+else # User selected Adminer
+
+    mkdir -p /usr/local/share/adminer
+    cd /usr/local/share/adminer
+    rm -rf /usr/local/share/adminer/*
+    wget http://www.adminer.org/latest.php
+    if [ $? = 0  ]; then
+        mv latest.php index.php
+        echo -e "\033[35;1m Adminer installed. \033[0m"
+    else
+        echo -e "\033[35;1mInstall/upgrade failed. Perhaps http://adminer.org is down. Try again later.\033[0m"
+    fi
+    cd - &> /dev/null
+fi # End if DB_GUI
 {% endraw %}
