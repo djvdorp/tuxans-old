@@ -1,15 +1,15 @@
 ---
-- name: 'Create directory for Tuxlite legacy scripts. Hardcoded permissions for user website.'
-  file: path=/usr/local/src/tuxlite state=directory owner=website group=website mode=0755
+- name: 'Create directory for Tuxlite legacy scripts.'
+  file: path=/usr/local/src/tuxlite state=directory owner="{{ user_website_username }}" group="{{ user_website_username }}" mode=0755
 
-- name: 'Fix Tuxlite domain.sh script from template. Hardcoded permissions for user website.'
-  template: src=../templates/legacy/domain.sh.j2 dest=/usr/local/src/tuxlite/domain.sh owner=website group=website mode=0700
+- name: 'Fix Tuxlite domain.sh script from template.'
+  template: src=../templates/legacy/domain.sh.j2 dest=/usr/local/src/tuxlite/domain.sh owner="{{ user_website_username }}" group="{{ user_website_username }}" mode=0700
 
-- name: 'Fix Tuxlite dbgui.sh script from template. Hardcoded permissions for user website.'
-  template: src=../templates/legacy/dbgui.sh.j2 dest=/usr/local/src/tuxlite/dbgui.sh owner=website group=website mode=0700
+- name: 'Fix Tuxlite dbgui.sh script from template.'
+  template: src=../templates/legacy/dbgui.sh.j2 dest=/usr/local/src/tuxlite/dbgui.sh owner="{{ user_website_username }}" group="{{ user_website_username }}" mode=0700
 
-- name: 'Fix Tuxlite varnish.sh script from template. Hardcoded permissions for user website.'
-  template: src=../templates/legacy/varnish.sh.j2 dest=/usr/local/src/tuxlite/varnish.sh owner=website group=website mode=0700
+- name: 'Fix Tuxlite varnish.sh script from template.'
+  template: src=../templates/legacy/varnish.sh.j2 dest=/usr/local/src/tuxlite/varnish.sh owner="{{ user_website_username }}" group="{{ user_website_username }}" mode=0700
 
-- name: 'Fix Tuxlite wordpress.sh script from template. Hardcoded permissions for user website.'
-  template: src=../templates/legacy/wordpress.sh.j2 dest=/usr/local/src/tuxlite/wordpress.sh owner=website group=website mode=0700
+- name: 'Fix Tuxlite wordpress.sh script from template.'
+  template: src=../templates/legacy/wordpress.sh.j2 dest=/usr/local/src/tuxlite/wordpress.sh owner="{{ user_website_username }}" group="{{ user_website_username }}" mode=0700

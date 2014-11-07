@@ -2,9 +2,11 @@
 # SSHd port should remain 22 during development for Vagrant to work properly!
 sshd_port: 22
 
+user_website_username: website
 # CHANGE THIS! See here: http://docs.ansible.com/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module
 # This is just SHA-512 for 'abcd1234'
 user_website_password: $6$rounds=100000$Fvia3r06vRiKDmmW$ZX8ajTHbl1hRZKEJrZcwRL5eJ5qxzm63kvn7b3EUgb5UBVR1pvGN4NrO6jJ1LrYFOm2N4yIZy/vD/tzOwNs2T.
+
 mysql_root_password: abcd1234
 
 hostname: test

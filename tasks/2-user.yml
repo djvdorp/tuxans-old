@@ -16,5 +16,5 @@
 - name: Final sudoers file check
   shell: visudo -q -c -f /etc/sudoers.tmp && cp -f /etc/sudoers.tmp /etc/sudoers
 
-- name: "Add user 'website' and add him to the 'admin' group"
-  user: name=website groups=admin append=yes password="{{ user_website_password }}"
+- name: Add user "{{ user_website_username }}" and add him to the admin group
+  user: name="{{ user_website_username }}" groups=admin append=yes password="{{ user_website_password }}"
