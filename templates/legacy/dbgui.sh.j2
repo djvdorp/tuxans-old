@@ -1,3 +1,4 @@
+#!/bin/bash
 ########################### {% if use_nginx %}Nginx version #{% else %}Apache version {% endif %}###########################
 # TuxLite - Complete LNMP/LAMP setup script for Debian/Ubuntu                                 #
 # Nginx/Apache + PHP5-FPM + MySQL                                                             #
@@ -64,23 +65,7 @@ function install_dbgui {
 
 
 #### Main program begins ####
-
-# Show Menu
-if [ ! -n "$1" ]; then
-    echo ""
-    echo -n "$0"
-    echo -ne "\033[36m dbgui\033[0m"
-    echo     " - Installs or updates Adminer/phpMyAdmin."
-    echo ""
-    exit
-fi
-# End Show Menu
-
-
-case $1 in
-dbgui)
-    install_dbgui
-    ;;
-esac
+echo "Installing or updating phpMyAdmin/Adminer."
+install_dbgui
 
 
