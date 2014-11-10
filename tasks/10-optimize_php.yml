@@ -10,35 +10,34 @@
 #  shell: sed -i 's/\;pm.max_requests.*/pm.max_requests = '{{ fpm_max_requests }}'/' /etc/php5/fpm/pool.d/www.conf
 #  shell: sed -i 's/^listen =.*/listen = \/var\/run\/php5-fpm-www-data.sock/' /etc/php5/fpm/pool.d/www.conf
 - name: 'PHP-FPM: Limit FPM processes & change to socket connection for better performance'
-  lineinfile:
+  replace:
     dest: /etc/php5/fpm/pool.d/www.conf
     regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    state: present
+    replace: "{{ item.replace }}"
   with_items:
     - {
         regexp: "^pm.max_children.*",
-        line: "pm.max_children = {{ fpm_max_children }}"
+        replace: "pm.max_children = {{ fpm_max_children }}"
       }
     - {
         regexp: "^pm.start_servers.*",
-        line: "pm.start_servers = {{ fpm_start_servers }}"
+        replace: "pm.start_servers = {{ fpm_start_servers }}"
       }
     - {
         regexp: "^pm.min_spare_servers.*",
-        line: "pm.min_spare_servers = {{ fpm_min_spare_servers }}"
+        replace: "pm.min_spare_servers = {{ fpm_min_spare_servers }}"
       }
     - {
         regexp: "^pm.max_spare_servers.*",
-        line: "pm.max_spare_servers = {{ fpm_max_spare_servers }}"
+        replace: "pm.max_spare_servers = {{ fpm_max_spare_servers }}"
       }
     - {
         regexp: "\\;pm.max_requests.*",
-        line: "pm.max_requests = {{ fpm_max_requests }}"
+        replace: "pm.max_requests = {{ fpm_max_requests }}"
       }
     - {
         regexp: "^listen =.*",
-        line: "listen = /var/run/php5-fpm-www-data.sock"
+        replace: "listen = /var/run/php5-fpm-www-data.sock"
       }
 
 # This equals
@@ -50,39 +49,38 @@
 #  shell: sed -i 's/^expose_php.*/expose_php = Off/' /etc/php5/fpm/php.ini
 #  shell: sed -i 's/^disable_functions.*/disable_functions = exec,system,passthru,shell_exec,escapeshellarg,escapeshellcmd,proc_close,proc_open,dl,popen,show_source/' /etc/php5/fpm/php.ini
 - name: 'PHP-FPM: Tweak php.ini based on input in config.yml'
-  lineinfile:
+  replace:
     dest: /etc/php5/fpm/php.ini
     regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    state: present
+    replace: "{{ item.replace }}"
   with_items:
     - {
         regexp: "^max_execution_time.*",
-        line: "max_execution_time = {{ php_max_execution_time }}"
+        replace: "max_execution_time = {{ php_max_execution_time }}"
       }
     - {
         regexp: "^memory_limit.*",
-        line: "memory_limit = {{ php_memory_limit }}"
+        replace: "memory_limit = {{ php_memory_limit }}"
       }
     - {
         regexp: "^max_input_time.*",
-        line: "max_input_time = {{ php_max_input_time }}"
+        replace: "max_input_time = {{ php_max_input_time }}"
       }
     - {
         regexp: "^post_max_size.*",
-        line: "post_max_size = {{ php_post_max_size }}"
+        replace: "post_max_size = {{ php_post_max_size }}"
       }
     - {
         regexp: "^upload_max_filesize.*",
-        line: "upload_max_filesize = {{ php_upload_max_filesize }}"
+        replace: "upload_max_filesize = {{ php_upload_max_filesize }}"
       }
     - {
         regexp: "^expose_php.*",
-        line: "expose_php = Off"
+        replace: "expose_php = Off"
       }
     - {
         regexp: "^disable_functions.*",
-        line: "disable_functions = exec,system,passthru,shell_exec,escapeshellarg,escapeshellcmd,proc_close,proc_open,dl,popen,show_source"
+        replace: "disable_functions = exec,system,passthru,shell_exec,escapeshellarg,escapeshellcmd,proc_close,proc_open,dl,popen,show_source"
       }
 
 

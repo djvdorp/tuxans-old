@@ -6,20 +6,18 @@
 #  shell: sed -i 's/^user\s*www-data/user nginx/' /etc/nginx/nginx.conf
 - name: 'Nginx: Change nginx user from "www-data" to "nginx". Not really necessary because "www-data" user is created when installing PHP5-FPM'
   when: use_nginx
-  lineinfile:
+  replace:
     dest: /etc/nginx/nginx.conf
     regexp: "^user\\s*www-data;"
-    line: "user nginx;"
-    state: present
+    replace: "user nginx;"
 # This equals
 #  shell: sed -i 's/\trotate .*/\trotate 10/' /etc/logrotate.d/nginx
 - name: 'Nginx: Change logrotate for nginx log files to keep 10 days worth of logs'
   when: use_nginx
-  lineinfile:
+  replace:
     dest: /etc/logrotate.d/nginx
     regexp: "\trotate .*"
-    line: "\trotate 10"
-    state: present
+    replace: "\trotate 10"
 
 
 
@@ -31,38 +29,36 @@
 #  shell: sed -i 's/\trotate .*/\trotate 10/' /etc/logrotate.d/apache2
 - name: 'Apache2: Change logrotate for apache2 log files to keep 10 days worth of logs'
   when: not use_nginx
-  lineinfile:
+  replace:
     dest: /etc/logrotate.d/apache2
     regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    state: present
+    replace: "{{ item.replace }}"
   with_items:
     - {
         regexp: "\tweekly",
-        line: "\tdaily"
+        replace: "\tdaily"
       }
     - {
         regexp: "\trotate .*",
-        line: "\trotate 10"
+        replace: "\trotate 10"
       }
 # This equals
 #  shell: sed -i 's/ServerTokens .*/ServerTokens Prod/' /etc/apache2/conf.d/security
 #  shell: sed -i 's/ServerSignature .*/ServerSignature Off/' /etc/apache2/conf.d/security
 - name: 'Apache2: Remove Apache server information from headers.'
   when: not use_nginx
-  lineinfile:
+  replace:
     dest: /etc/apache2/conf.d/security
     regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    state: present
+    replace: "{{ item.replace }}"
   with_items:
     - {
         regexp: "ServerTokens .*",
-        line: "ServerTokens Prod"
+        replace: "ServerTokens Prod"
       }
     - {
         regexp: "ServerSignature .*",
-        line: "ServerSignature Off"
+        replace: "ServerSignature Off"
       }
 - name: 'Apache2: Add *:443 to ports.conf'
   when: not use_nginx

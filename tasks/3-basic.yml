@@ -7,30 +7,28 @@
 #  shell: sed -i 's/^Port [0-9]*/Port '{{ sshd_port }}'/' /etc/ssh/sshd_config
 #  shell: sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
 - name: 'Reconfigure sshd - change port and disable root login'
-  lineinfile:
+  replace:
     dest: /etc/ssh/sshd_config
     regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    state: present
+    replace: "{{ item.replace }}"
   with_items:
     - {
         regexp: "^Port",
-        line: "Port {{ sshd_port }}"
+        replace: "Port {{ sshd_port }}"
       }
     - {
         regexp: "^PermitRootLogin",
-        line: "PermitRootLogin no"
+        replace: "PermitRootLogin no"
       }
 
 - name: 'Restart ssh service to apply changes'
   service: name=ssh state=restarted
 
 - name: 'Set FQDN'
-  lineinfile:
+  replace:
     dest: /etc/hosts
     regexp: "{{ ansible_default_ipv4.address }}.*"
-    line: "{{ ansible_default_ipv4.address }} {{ hostname_fqdn }} {{ hostname }}"
-    state: present
+    replace: "{{ ansible_default_ipv4.address }} {{ hostname_fqdn }} {{ hostname }}"
 
 - name: 'Set Hostname'
   hostname: name="{{ hostname }}"
@@ -44,25 +42,24 @@
 #  shell: sed -i 's/^#net.ipv6.conf.all.accept_source_route = 0/net.ipv6.conf.all.accept_source_route = 0/' /etc/sysctl.conf
 #  shell: sed -i 's/^net.ipv6.conf.all.accept_source_route = 1/net.ipv6.conf.all.accept_source_route = 0/' /etc/sysctl.conf
 - name: 'Basic hardening of sysctl.conf'
-  lineinfile:
+  replace:
     dest: /etc/sysctl.conf
     regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    state: present
+    replace: "{{ item.replace }}"
   with_items:
     - {
         regexp: "^#net.ipv4.conf.all.accept_source_route = 0",
-        line: "net.ipv4.conf.all.accept_source_route = 0"
+        replace: "net.ipv4.conf.all.accept_source_route = 0"
       }
     - {
         regexp: "^net.ipv4.conf.all.accept_source_route = 1",
-        line: "net.ipv4.conf.all.accept_source_route = 0"
+        replace: "net.ipv4.conf.all.accept_source_route = 0"
       }
     - {
         regexp: "^#net.ipv6.conf.all.accept_source_route = 0",
-        line: "net.ipv6.conf.all.accept_source_route = 0"
+        replace: "net.ipv6.conf.all.accept_source_route = 0"
       }
     - {
         regexp: "^net.ipv6.conf.all.accept_source_route = 1",
-        line: "net.ipv6.conf.all.accept_source_route = 0"
+        replace: "net.ipv6.conf.all.accept_source_route = 0"
       }

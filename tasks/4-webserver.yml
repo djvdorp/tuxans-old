@@ -13,11 +13,10 @@
 #  shell: sed -i 's/^[^#]/#&/' /etc/nginx/conf.d/default.conf
 - name: 'Webserver: Disable nginx vhost that is not in the sites-available folder. Put a hash in front of any line.'
   when: use_nginx
-  lineinfile:
+  replace:
     dest: /etc/nginx/conf.d/default.conf
     regexp: "^[^#]"
-    line: "#&/"
-    state: present
+    replace: "#&/"
 - name: 'Webserver: Enable default nginx vhost in /etc/nginx/sites-available'
   when: use_nginx
   file: src=/etc/nginx/sites-available/default dest=/etc/nginx/sites-enabled/default state=link force=yes
