@@ -9,5 +9,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision :ansible do |ansible|
     ansible.playbook = "main.yml"
+    #ansible.raw_arguments = ['-vvvv']​
+    #ansible.raw_arguments = ['--check']
   end
 end
