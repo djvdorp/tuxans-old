@@ -3,9 +3,9 @@
 - name: 'Backup sources.list to sources.list.bak'
   command: cp /etc/apt/sources.list /etc/apt/sources.list.bak creates=/etc/apt/sources.list.bak
 
-- name: 'Ubuntu: Update the sources.list file'
-  when: ansible_distribution == 'Ubuntu'
-  template: src=../templates/ubuntu_sources.list.j2 dest=/etc/apt/sources.list
+#- name: 'Ubuntu: Update the sources.list file'
+#  when: ansible_distribution == 'Ubuntu'
+#  template: src=../templates/ubuntu_sources.list.j2 dest=/etc/apt/sources.list
 - name: 'Debian: Update the sources.list file'
   when: ansible_distribution == 'Debian'
   template: src=../templates/debian_sources.list.j2 dest=/etc/apt/sources.list
