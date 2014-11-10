@@ -1,22 +1,23 @@
 ---
 - name: 'Install Oracle MySQL'
   when: not install_mariadb and not install_percona
-  apt: name={{item}} state=latest force=yes
+  apt: name={{item}} state=latest force=yes update_cache=yes
   with_items:
   - mysql-server
   - mysql-client
 - name: 'Install MariaDB MySQL'
   when: install_mariadb and not install_percona
-  apt: name={{item}} state=latest force=yes
+  apt: name={{item}} state=latest force=yes update_cache=yes
   with_items:
   - mariadb-server
   - mariadb-client
 - name: 'Install Percona MySQL'
   when: install_percona and not install_mariadb
-  apt: name={{item}} state=latest force=yes
+  apt: name={{item}} state=latest force=yes update_cache=yes
   with_items:
-  - percona-server-server-5.5
-  - percona-server-client-5.5
+  - percona-server-common-5.6
+  - percona-server-client-5.6
+  - percona-server-server-5.6
 
 # Ansible mysql_secure_installation playbook version
 # Re-used from http://injustfiveminutes.com/2014/08/25/ansible-mysql_secure_installation-playbook/
