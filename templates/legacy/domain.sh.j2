@@ -116,17 +116,10 @@ function add_domain {
     mkdir -p $DOMAIN_PATH/{logs,public_html}
     touch $DOMAIN_PATH/logs/{access.log,error.log}
 
-    cat > $DOMAIN_PATH/public_html/index.html <<EOF
-<html>
-<head>
-<title>Welcome to $DOMAIN</title>
-</head>
-<body>
-<h1>Welcome to $DOMAIN</h1>
-<p>This page is simply a placeholder for your domain. Place your content in the appropriate directory to see it here. </p>
-<p>Please replace or delete index.html when uploading or creating your site.</p>
-</body>
-</html>
+    cat > $DOMAIN_PATH/public_html/index.php <<EOF
+<?php
+phpinfo();
+?>
 EOF
 
     # Setup awstats directories
