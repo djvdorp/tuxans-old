@@ -3,15 +3,6 @@
   when: use_nginx
   template: src=../templates/nginx.conf.j2 dest=/etc/nginx/nginx.conf
 # This equals
-#  shell: sed -i 's/^user\s*www-data/user nginx/' /etc/nginx/nginx.conf
-- name: 'Nginx: Change nginx user from "www-data" to "nginx". Not really necessary because "www-data" user is created when installing PHP5-FPM'
-  when: use_nginx
-  lineinfile:
-    dest: /etc/nginx/nginx.conf
-    regexp: "^user\\s*www-data;"
-    line: "user nginx;"
-    state: present
-# This equals
 #  shell: sed -i 's/\trotate .*/\trotate 10/' /etc/logrotate.d/nginx
 - name: 'Nginx: Change logrotate for nginx log files to keep 10 days worth of logs'
   when: use_nginx
