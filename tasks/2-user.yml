@@ -8,11 +8,11 @@
 - name: Create 'admin' group
   group: name=admin system=yes state=present
 - name: Make sure we can sudo as 'admin' group
-  replace: dest=/etc/sudoers.tmp regexp='^%admin ALL\=\(ALL\) ALL' replace='%admin ALL=(ALL) ALL'
+  lineinfile: dest=/etc/sudoers.tmp state=present regexp='^%admin ALL\=\(ALL\) ALL' line='%admin ALL=(ALL) ALL'
 - name: Also make sure ssh-agent works via sudo
-  replace: dest=/etc/sudoers.tmp regexp='^Defaults env_keep\+\=SSH_AUTH_SOCK' replace='Defaults env_keep+=SSH_AUTH_SOCK'
+  lineinfile: dest=/etc/sudoers.tmp state=present regexp='^Defaults env_keep\+\=SSH_AUTH_SOCK' line='Defaults env_keep+=SSH_AUTH_SOCK'
 - name: And mail bad passwords
-  replace: dest=/etc/sudoers.tmp regexp='^Defaults mail_badpass' replace='Defaults mail_badpass'
+  lineinfile: dest=/etc/sudoers.tmp state=present regexp='^Defaults mail_badpass' line='Defaults mail_badpass'
 - name: Final sudoers file check
   shell: visudo -q -c -f /etc/sudoers.tmp && cp -f /etc/sudoers.tmp /etc/sudoers
 
