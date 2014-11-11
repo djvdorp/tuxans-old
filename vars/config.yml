@@ -14,6 +14,9 @@ hostname_fqdn: test.server.com
 
 use_nginx: True
 
+# Installs Mosh (mobile shell): https://mosh.mit.edu/
+install_mosh: True
+
 #Choose your MySQL flavour, if both are False then Oracle MySQL is used (default).
 install_mariadb: False
 install_percona: True

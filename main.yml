@@ -22,3 +22,4 @@
     - include: tasks/11-optimize_mysql.yml
     - include: tasks/12-selfsigned_ssl.yml
     - include: tasks/13-tuxlite_legacy.yml
+    - include: tasks/14-mosh.yml

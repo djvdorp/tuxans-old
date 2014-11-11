@@ -1,0 +1,12 @@
+---
+- name: 'Mosh: install python-software-properties first (Ubuntu)'
+  when: install_mosh and ansible_distribution == 'Ubuntu'
+  apt: name=python-software-properties state=latest force=yes
+
+- name: 'Mosh: add Mosh PPA (ppa:keithw/mosh)'
+  when: install_mosh and ansible_distribution == 'Ubuntu'
+  apt_repository: repo='ppa:keithw/mosh'
+
+- name: 'Mosh: install Mosh (after an apt-get update)'
+  when: install_mosh
+  apt: name=mosh state=latest force=yes update_cache=yes
