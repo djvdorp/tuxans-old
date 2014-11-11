@@ -6,9 +6,9 @@
 #- name: 'Ubuntu: Update the sources.list file'
 #  when: ansible_distribution == 'Ubuntu'
 #  template: src=../templates/ubuntu_sources.list.j2 dest=/etc/apt/sources.list
-- name: 'Debian: Update the sources.list file'
-  when: ansible_distribution == 'Debian'
-  template: src=../templates/debian_sources.list.j2 dest=/etc/apt/sources.list
+#- name: 'Debian: Update the sources.list file'
+#  when: ansible_distribution == 'Debian'
+#  template: src=../templates/debian_sources.list.j2 dest=/etc/apt/sources.list
 
 ## Third party mirrors ##
 # Need to add Dotdeb repo for installing PHP5-FPM when using Debian 6.0 (squeeze)
