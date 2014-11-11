@@ -2,6 +2,27 @@
 - name: 'PHP-FPM: stop service'
   service: name=php5-fpm state=stopped
 
+# See: http://stackoverflow.com/questions/23443398/nginx-error-connect-to-php5-fpm-sock-failed-13-permission-denied
+- name: 'PHP-FPM: Make sure the permissions on socket are right for user www-data'
+  lineinfile:
+    dest: /etc/php5/fpm/pool.d/www.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - {
+        regexp: "^;listen.owner",
+        line: "listen.owner = www-data"
+      }
+    - {
+        regexp: "^;listen.group",
+        line: "listen.group = www-data"
+      }
+    - {
+        regexp: "^;listen.mode",
+        line: "listen.mode = 0660"
+      }
+
 # This equals
 #  shell: sed -i 's/^pm.max_children.*/pm.max_children = '{{ fpm_max_children }}'/' /etc/php5/fpm/pool.d/www.conf
 #  shell: sed -i 's/^pm.start_servers.*/pm.start_servers = '{{ fpm_start_servers }}'/' /etc/php5/fpm/pool.d/www.conf
