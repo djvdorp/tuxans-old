@@ -1,19 +1,19 @@
 ---
 - name: 'Install Oracle MySQL'
   when: not install_mariadb and not install_percona
-  apt: name={{item}} state=latest force=yes update_cache=yes
+  apt: name={{item}} state=latest force=yes
   with_items:
   - mysql-server
   - mysql-client
 - name: 'Install MariaDB MySQL'
   when: install_mariadb and not install_percona
-  apt: name={{item}} state=latest force=yes update_cache=yes
+  apt: name={{item}} state=latest force=yes
   with_items:
   - mariadb-server
   - mariadb-client
 - name: 'Install Percona MySQL'
   when: install_percona and not install_mariadb
-  apt: name={{item}} state=latest force=yes update_cache=yes
+  apt: name={{item}} state=latest force=yes
   with_items:
   - percona-server-common-5.6
   - percona-server-client-5.6
