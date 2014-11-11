@@ -12,6 +12,7 @@
   - python-apt
   - debconf
   - python-mysqldb
+  - screen
 - name: 'stop unneeded server services (apache2, sendmail, bind9, nscd)'
   service: name={{item}} state=stopped enabled=no
   register: command_result
