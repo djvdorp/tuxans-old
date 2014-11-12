@@ -16,7 +16,7 @@ Can I donate to **TuxLite**?
 - Yes, please see the [TuxLite Donate page](http://tuxlite.com/donate/).
 
 What is ported in **tuxans** (compared to **TuxLite**) at this time?
-- All functionality, except for the "dbgui", "domain.sh" and "varnish.sh" parts of the script. (WIP)
+- All functionality, including the Database GUI (now as a separate shell script, ```dbgui.sh```), ```domain.sh```, ```varnish.sh``` and ```wordpress.sh```. These scripts will be in ```/usr/local/src/tuxlite/ ```
 - Removed: AWstats (use Analytics), TMPDD/TMPFS securing, MySQL optimization.
 
 Why **Ansible** and not *superCoolDevOpsToolB*?
@@ -28,26 +28,14 @@ Why **Ansible** and not *superCoolDevOpsToolB*?
 
 How to use Ansible on Host (where you provision from):
 
-1. Install python and pip
-2. Install requirements.txt (pip install -r requirements.txt)
-3. Install sshpass:
-
-```
-cd ~/Downloads
-curl -O -L http://downloads.sourceforge.net/project/sshpass/sshpass/1.05/sshpass-1.05.tar.gz
-tar xvzf sshpass-1.05.tar.gz
-cd sshpass-1.05
-
-./configure
-make
-sudo make install
-```
-Then run ansible on hosts in inventory (ansible-playbook main.yml -vvvv)
+1. Install ```python``` and ```pip```
+2. Install ```requirements.txt``` (```pip install -r requirements.txt```)
+3. Run ansible on hosts in inventory (```ansible-playbook main.yml -vvvv```)
 
 ### Client node
 
-How to make Node ready for Ansible:
+How to make Node ready for Ansible (which you provision):
 
-1. Install bare OS
-2. ssh as root
-3. apt-get update && apt-get upgrade && apt-get install python
+1. Install bare OS (Ubuntu 14.04 LTS recommended, but all Ubuntu and Debian supported)
+2. Open ssh session as ```root```
+3. ```apt-get update && apt-get upgrade && apt-get install python```
